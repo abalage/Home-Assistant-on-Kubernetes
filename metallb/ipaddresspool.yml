@@ -1,0 +1,22 @@
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: iot
+  namespace: metallb-system
+spec:
+  addresses:
+    - 127.0.0.1/8
+  autoAssign: true
+  avoidBuggyIPs: false
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: lan
+  namespace: metallb-system
+spec:
+  addresses:
+    - 127.0.0.1/8
+  autoAssign: true
+  avoidBuggyIPs: false

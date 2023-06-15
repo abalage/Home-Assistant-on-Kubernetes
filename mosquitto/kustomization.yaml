@@ -1,0 +1,10 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- github.com/abalage/mosquitto-mqtt-k8s/base?ref=main
+
+configMapGenerator:
+- name: mosquitto-base-config
+  behavior: merge
+  files:
+  - password_file

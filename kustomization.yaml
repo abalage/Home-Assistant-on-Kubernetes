@@ -1,0 +1,57 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- home-assistant/
+- mosquitto/
+- metallb/
+- nginx/
+
+# Home Assistant
+configMapGenerator:
+- name: home-assistant-config
+  behavior: replace
+  literals:
+  - TZ="Europe/Budapest"
+
+patchesJson6902:
+# Home Assistant
+- target:
+    version: v1
+    kind: Ingress
+    name: home-assistant
+  patch: |-
+    - op: replace
+      path: /spec/tls/0/hosts/0
+      value: ha.example.com
+    - op: replace
+      path: /spec/tls/0/secretName
+      value: ha.example.com-production-secret
+    - op: replace
+      path: /spec/rules/0/host
+      value: ha.example.com
+# Metallb
+- target:
+    kind: IPAddressPool
+    name: iot
+  patch: |-
+    - op: replace
+      path: /spec/addresses/0
+      value: 10.1.1.10/32
+- target:
+    kind: IPAddressPool
+    name: lan
+  patch: |-
+    - op: replace
+      path: /spec/addresses/0
+      value: 192.168.1.10/32
+# Nginx
+- target:
+    kind: Service
+    name: ingress-nginx-controller
+  patch: |-
+    - op: replace
+      path: "/metadata/annotations/metallb.universe.tf~1loadBalancerIPs"
+      value: 10.1.1.10
+    - op: replace
+      path: /spec/loadBalancerIP
+      value: 10.1.1.10

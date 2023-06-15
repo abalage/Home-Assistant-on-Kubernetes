@@ -1,0 +1,20 @@
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ingress-nginx-controller
+  namespace: ingress-nginx
+  annotations:
+    metallb.universe.tf/address-pool: iot
+    metallb.universe.tf/loadBalancerIPs: 127.0.0.1
+spec:
+  type: LoadBalancer
+  externalTrafficPolicy: Local
+  # https://kubernetes.github.io/ingress-nginx/examples/static-ip/
+  loadBalancerIP: "127.0.0.1"
+  ports:
+    - appProtocol: mqtt
+      name: proxied-tcp-1883
+      port: 1883
+      targetPort: 1883
+      protocol: TCP
