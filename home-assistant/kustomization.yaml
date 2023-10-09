@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - github.com/abalage/home-assistant-k8s/base?ref=main
 
+namespace: home-assistant
 patchesJson6902:
 - target:
     version: v1
