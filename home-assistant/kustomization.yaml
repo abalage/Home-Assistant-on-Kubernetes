@@ -13,7 +13,3 @@ patchesJson6902:
     - op: replace
       path: /spec/ingressClassName
       value: nginx
-
-images:
-- name: ghcr.io/home-assistant/home-assistant
-  newTag: 2022.12.1
