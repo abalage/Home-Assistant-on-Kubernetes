@@ -3,6 +3,7 @@ kind: Kustomization
 resources:
 - github.com/abalage/mosquitto-mqtt-k8s/base?ref=main
 
+namespace: home-assistant
 configMapGenerator:
 - name: mosquitto-base-config
   behavior: merge
